@@ -6,6 +6,7 @@
      sendWSMessage({
        type: 'get_messages',
        payload: { chatPartnerId: chatId }
+     });
 @@ .. @@
      // Mock messages for demonstration
      setMessages([
@@ -15,7 +16,7 @@
          from: chatId,
          to: user?.userId || '',
          content: 'Hey there! How are you doing?',
-@@ .. @@
+         timestamp: new Date(Date.now() - 3600000)
        },
        {
 -        _id: '2',
@@ -23,7 +24,7 @@
          from: user?.userId || '',
          to: chatId,
          content: 'I\'m doing great! Thanks for asking.',
-@@ .. @@
+         timestamp: new Date(Date.now() - 1800000)
        },
        {
 -        _id: '3',
@@ -31,7 +32,11 @@
          from: chatId,
          to: user?.userId || '',
          content: 'That\'s wonderful to hear!',
-@@ .. @@
+         timestamp: new Date(Date.now() - 900000)
+       }
+     ]);
+   };
+
    const sendMessage = () => {
      if (!messageText.trim() || !chatId) return;
 
@@ -42,7 +47,12 @@
        from: user?.userId || '',
        to: chatId,
        content: messageText.trim(),
-@@ .. @@
+       timestamp: new Date()
+     };
+
+     setMessages(prev => [...prev, newMessage]);
+     setMessageText('');
+
      // Send via WebSocket
      sendWSMessage({
        type: 'send_message',
@@ -54,3 +64,4 @@
          chatType: 'individual'
        }
      });
+   };
