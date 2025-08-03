@@ -9,7 +9,7 @@
 
      if (!phone) {
        Alert.alert('Error', 'Phone number not found');
-+      router.back();
+       router.back();
        return;
      }
 
@@ -18,23 +18,25 @@
        await verifyCode(phone, finalCode);
        router.replace('/(tabs)');
      } catch (error) {
-+      console.error('Verify code error:', error);
+       console.error('Verify code error:', error);
        Alert.alert('Error', error instanceof Error ? error.message : 'Invalid verification code');
        setCode(['', '', '', '', '', '']);
        inputRefs.current[0]?.focus();
+     } finally {
+       setIsLoading(false);
+     }
+   };
 @@ .. @@
    const handleResendCode = () => {
      if (countdown > 0) return;
      
-+    if (!phone) {
-+      Alert.alert('Error', 'Phone number not found');
-+      return;
-+    }
-+    
+     if (!phone) {
+       Alert.alert('Error', 'Phone number not found');
+       return;
+     }
+    
      setCountdown(60);
--    // Implement resend logic here
--    Alert.alert('Success', 'Verification code resent');
-+    
-+    // In a real app, call the sendVerificationCode function
-+    Alert.alert('Success', 'Verification code resent to ' + phone);
+    
+     // In a real app, call the sendVerificationCode function
+     Alert.alert('Success', 'Verification code resent to ' + phone);
    };
